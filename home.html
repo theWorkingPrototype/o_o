@@ -13,12 +13,12 @@
             var canvas = document.createElement("canvas");
             canvas.width = window.innerWidth*(devicePixelRatio||1);
             canvas.height = window.innerHeight*(devicePixelRatio||1);
-            console.log(canvas.width,canvas.height);
             document.body.appendChild(canvas);
             let pencil = canvas.getContext("2d");
             let color = [[0, 0, 0]];
             color[0] = color[0].map((x) => Math.random() * 255);
             let dragging = false;
+            console.log("%c   ^~^","color:orange")
             canvas.addEventListener("mousedown", (ev) => { dragging = true; addCircle(ev); });
             canvas.addEventListener("mouseup", (ev) => { dragging = false });
             canvas.addEventListener("mousemove", (ev) => { if (dragging) addCircle(ev) });
@@ -29,7 +29,6 @@
                 color.push([0, 0, 0].map((x) => Math.random() * 255));
                 if (circles.length == 1)
                     requestAnimationFrame(changeColor);
-                console.log(circles.slice())
             }
             function changeColor() {
                 t = performance.now();
