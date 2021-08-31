@@ -11,8 +11,9 @@
         function resized(){window.location.reload();}
         function load() {
             var canvas = document.createElement("canvas");
-            canvas.width = innerWidth;
-            canvas.height = innerHeight;
+            canvas.width = window.innerWidth*(devicePixelRatio||1);
+            canvas.height = window.innerHeight*(devicePixelRatio||1);
+            console.log(canvas.width,canvas.height);
             document.body.appendChild(canvas);
             let pencil = canvas.getContext("2d");
             let color = [[0, 0, 0]];
@@ -46,7 +47,7 @@
                     pencil.fillRect(0, 0, innerWidth, innerWidth);
                 }
                 if (circles.length)
-                requestAnimationFrame(changeColor);
+            requestAnimationFrame(changeColor);
             }
         }
     </script>
