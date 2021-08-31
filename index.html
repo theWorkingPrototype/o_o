@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>light</title>
+</head>
+<body style="margin: 0px;overflow:hidden;" onresize="resized()" onload="load()" >
+    <script>
+        function resized(){window.location.reload();}
+        function load() {
+            var canvas = document.createElement("canvas");
+            canvas.width = innerWidth;
+            canvas.height = innerHeight;
+            document.body.appendChild(canvas);
+            let pencil = canvas.getContext("2d");
+            let color = [[0, 0, 0]];
+            color[0] = color[0].map((x) => Math.random() * 255);
+            let dragging = false;
+            canvas.addEventListener("mousedown", (ev) => { dragging = true; addCircle(ev); });
+            canvas.addEventListener("mouseup", (ev) => { dragging = false });
+            canvas.addEventListener("mousemove", (ev) => { if (dragging) addCircle(ev) });
+            let t = 0;
+            let circles = [];
+            function addCircle(ev) {
+                circles.push([ev.pageX - canvas.offsetLeft, ev.pageY - canvas.offsetTop, performance.now()]);
+                color.push([0, 0, 0].map((x) => Math.random() * 255));
+                if (circles.length == 1)
+                    requestAnimationFrame(changeColor);
+                console.log(circles.slice())
+            }
+            function changeColor() {
+                t = performance.now();
+                for (i in circles) {
+                    if (t - circles[i][2] > 1000) {
+                        circles.shift();
+                        color.shift();
+                        continue;
+                    }
+                    let grad = pencil.createRadialGradient(circles[i][0], circles[i][1], 0,
+                    circles[i][0], circles[i][1], 2.24 * (t - circles[i][2]));
+                    grad.addColorStop(0, "rgb(" + color[i][0] + "," + color[i][1] + "," + color[i][2] + ",1)");
+                    grad.addColorStop(1, "rgb(230,230,230,0)");
+                    pencil.fillStyle = grad;
+                    pencil.fillRect(0, 0, innerWidth, innerWidth);
+                }
+                if (circles.length)
+                requestAnimationFrame(changeColor);
+            }
+        }
+    </script>
+</body>
+</html>
