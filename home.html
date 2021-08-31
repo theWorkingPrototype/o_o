@@ -5,11 +5,25 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>light</title>
+    <style>
+        .circle{
+            background-color:rgba(70,70,70,.6);
+            border-radius: 50%;
+            border:2px solid rgb(0, 0, 0,.2);
+            position: absolute;
+            width:20px;
+            height:20px;
+            top:4.5vmax;
+            left:4.5vmax;
+        }
+    </style>
 </head>
-<body style="margin: 0px;overflow:hidden;" onresize="resized()" onload="load()" >
+<body style="margin: 0px;height:100%;overflow:hidden;" scroll="no" onresize="resized()" onload="load()" >
+    <div class="circle"></div>
     <script>
         function resized(){window.location.reload();}
         function load() {
+            document.body.height=innerHeight;
             var canvas = document.createElement("canvas");
             canvas.width = window.innerWidth*(devicePixelRatio||1);
             canvas.height = window.innerHeight*(devicePixelRatio||1);
@@ -33,7 +47,7 @@
             function changeColor() {
                 t = performance.now();
                 for (i in circles) {
-                    if (t - circles[i][2] > 1000) {
+                    if (t - circles[i][2] > 2500) {
                         circles.shift();
                         color.shift();
                         continue;
@@ -48,7 +62,18 @@
                 if (circles.length)
             requestAnimationFrame(changeColor);
             }
-        }
+            let tap=document.getElementsByClassName("circle")[0];
+            tap.onclick=(e)=>{addCircle(e);};
+            const e = new Event("twp");
+            e.pageX=tap.offsetLeft+tap.clientWidth/2;
+            e.pageY=tap.offsetTop+tap.clientHeight/2;
+            document.addEventListener("twp", (e) => { addCircle(e); });
+            click();
+            function click(){
+                document.dispatchEvent(e);
+                setTimeout(click,Math.random()*2000);
+            }
+    }
     </script>
 </body>
 </html>
