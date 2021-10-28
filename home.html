@@ -65,8 +65,8 @@
             let tap=document.getElementsByClassName("circle")[0];
             tap.onclick=(e)=>{addCircle(e);};
             const e = new Event("twp");
-            e.pageX=tap.offsetLeft+tap.clientWidth/1/88;
-            e.pageY=tap.offsetTop+tap.clientHeight/1.88;
+            e.pageX=tap.offsetLeft+tap.clientWidth/2;
+            e.pageY=tap.offsetTop+tap.clientHeight/2;
             document.addEventListener("twp", (e) => { addCircle(e); });
             click();
             function click(){
